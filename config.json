@@ -1,0 +1,22 @@
+{
+  "keyBindings": {
+    "moveLeft": "LeftArrow",
+    "moveRight": "RightArrow",
+    "softDrop": "DownArrow",
+    "rotate": "UpArrow",
+    "hardDrop": "Space",
+    "hold": "C",
+    "pause": "P",
+    "restart": "R"
+  },
+  "description": {
+    "moveLeft": "ピースを左に移動",
+    "moveRight": "ピースを右に移動",
+    "softDrop": "ピースを1マス下に移動（ソフトドロップ）",
+    "rotate": "ピースを回転",
+    "hardDrop": "ピースを一番下まで落とす（ハードドロップ）",
+    "hold": "ピースをホールド",
+    "pause": "ゲームを一時停止",
+    "restart": "ゲームをリスタート"
+  }
+}

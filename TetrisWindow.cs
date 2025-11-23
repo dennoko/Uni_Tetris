@@ -24,6 +24,7 @@ namespace UniTetris
         
         private double lastUpdateTime;
         private const string HighScoreKey = "UniTetris_HighScore";
+        private KeyBindingConfig keyConfig;
 
         [MenuItem("Window/Uni Tetris")]
         public static void ShowWindow()
@@ -35,6 +36,8 @@ namespace UniTetris
 
         private void OnEnable()
         {
+            keyConfig = KeyBindingConfig.Instance;
+            
             game = new TetrisGame();
             game.OnBoardChanged += RefreshBoard;
             game.OnScoreChanged += RefreshScore;
@@ -163,13 +166,13 @@ namespace UniTetris
             controlsTitle.AddToClassList("panel-title");
             controlsPanel.Add(controlsTitle);
             
-            controlsPanel.Add(new Label("← → : Move"));
-            controlsPanel.Add(new Label("↓ : Soft Drop"));
-            controlsPanel.Add(new Label("↑ : Rotate"));
-            controlsPanel.Add(new Label("Space : Hard Drop"));
-            controlsPanel.Add(new Label("C : Hold"));
-            controlsPanel.Add(new Label("P : Pause"));
-            controlsPanel.Add(new Label("R : Restart"));
+            controlsPanel.Add(new Label($"{keyConfig.keyBindings.moveLeft} / {keyConfig.keyBindings.moveRight} : Move"));
+            controlsPanel.Add(new Label($"{keyConfig.keyBindings.softDrop} : Soft Drop"));
+            controlsPanel.Add(new Label($"{keyConfig.keyBindings.rotate} : Rotate"));
+            controlsPanel.Add(new Label($"{keyConfig.keyBindings.hardDrop} : Hard Drop"));
+            controlsPanel.Add(new Label($"{keyConfig.keyBindings.hold} : Hold"));
+            controlsPanel.Add(new Label($"{keyConfig.keyBindings.pause} : Pause"));
+            controlsPanel.Add(new Label($"{keyConfig.keyBindings.restart} : Restart"));
             rightPanel.Add(controlsPanel);
 
             // ゲームオーバー表示
@@ -212,45 +215,50 @@ namespace UniTetris
 
         private void HandleKeyInput()
         {
-            if (game == null) return;
+            if (game == null || keyConfig == null) return;
 
             Event e = Event.current;
             if (e.type == EventType.KeyDown)
             {
-                switch (e.keyCode)
+                if (e.keyCode == keyConfig.GetKeyCode("moveLeft"))
                 {
-                    case KeyCode.LeftArrow:
-                        game.MoveLeft();
-                        e.Use();
-                        break;
-                    case KeyCode.RightArrow:
-                        game.MoveRight();
-                        e.Use();
-                        break;
-                    case KeyCode.DownArrow:
-                        game.MoveDown();
-                        e.Use();
-                        break;
-                    case KeyCode.UpArrow:
-                        game.Rotate();
-                        e.Use();
-                        break;
-                    case KeyCode.Space:
-                        game.HardDrop();
-                        e.Use();
-                        break;
-                    case KeyCode.C:
-                        game.Hold();
-                        e.Use();
-                        break;
-                    case KeyCode.P:
-                        TogglePause();
-                        e.Use();
-                        break;
-                    case KeyCode.R:
-                        RestartGame();
-                        e.Use();
-                        break;
+                    game.MoveLeft();
+                    e.Use();
+                }
+                else if (e.keyCode == keyConfig.GetKeyCode("moveRight"))
+                {
+                    game.MoveRight();
+                    e.Use();
+                }
+                else if (e.keyCode == keyConfig.GetKeyCode("softDrop"))
+                {
+                    game.MoveDown();
+                    e.Use();
+                }
+                else if (e.keyCode == keyConfig.GetKeyCode("rotate"))
+                {
+                    game.Rotate();
+                    e.Use();
+                }
+                else if (e.keyCode == keyConfig.GetKeyCode("hardDrop"))
+                {
+                    game.HardDrop();
+                    e.Use();
+                }
+                else if (e.keyCode == keyConfig.GetKeyCode("hold"))
+                {
+                    game.Hold();
+                    e.Use();
+                }
+                else if (e.keyCode == keyConfig.GetKeyCode("pause"))
+                {
+                    TogglePause();
+                    e.Use();
+                }
+                else if (e.keyCode == keyConfig.GetKeyCode("restart"))
+                {
+                    RestartGame();
+                    e.Use();
                 }
             }
         }
