@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace UniBlocks
 {
     /// <summary>
-    /// UniBlocksエチE��タウィンドウ
+    /// UniBlocksエチE��タウィンドウ
     /// </summary>
     public class UniBlocksWindow : EditorWindow
     {
@@ -34,6 +34,23 @@ namespace UniBlocks
             UniBlocksWindow window = GetWindow<UniBlocksWindow>();
             window.titleContent = new GUIContent("Uni Blocks");
             window.minSize = new Vector2(450, 700);
+        }
+
+        // メニューからハイスコアをリセットするオプションを追加
+        [MenuItem("Window/Uni Blocks/Reset High Score")]
+        public static void ResetHighScoreMenu()
+        {
+            if (EditorUtility.DisplayDialog(
+                "Reset High Score",
+                "ハイスコアを本当に消去しますか？\n(元に戻せません)",
+                "削除",
+                "キャンセル"))
+            {
+                EditorPrefs.DeleteKey(HighScoreKey);
+                // 開いているウィンドウがあれば表示更新
+                UniBlocksWindow w = GetWindow<UniBlocksWindow>();
+                w?.UpdateHighScoreDisplay();
+            }
         }
 
         private void OnEnable()
@@ -72,7 +89,7 @@ namespace UniBlocks
             root.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(
                 "Assets/Editor/Uni_Blocks/UniBlocks.uss"));
 
-            // IMGUIコンチE��でキーイベントを処琁E
+            // IMGUIコンチE��でキーイベントを処琁E
             var imguiContainer = new IMGUIContainer(() =>
             {
                 HandleKeyInput();
@@ -83,12 +100,12 @@ namespace UniBlocks
             imguiContainer.focusable = true;
             root.Add(imguiContainer);
 
-            // メインコンチE��
+            // メインコンチE��
             VisualElement mainContainer = new VisualElement();
             mainContainer.AddToClassList("main-container");
             root.Add(mainContainer);
 
-            // 左側�E�ゲームボ�EチE
+            // 左側�E�ゲームボ�EチE
             VisualElement leftPanel = new VisualElement();
             leftPanel.AddToClassList("left-panel");
             mainContainer.Add(leftPanel);
@@ -97,7 +114,7 @@ namespace UniBlocks
             boardContainer.AddToClassList("board-container");
             leftPanel.Add(boardContainer);
 
-            // ボ�Eド�Eセルを作�E
+            // ボ�Eド�Eセルを作�E
             cells = new VisualElement[UniBlocksBoard.Height, UniBlocksBoard.Width];
             for (int y = 0; y < UniBlocksBoard.Height; y++)
             {
@@ -115,7 +132,7 @@ namespace UniBlocks
                 }
             }
 
-            // 右側�E�情報パネル
+            // 右側�E�情報パネル
             VisualElement rightPanel = new VisualElement();
             rightPanel.AddToClassList("right-panel");
             mainContainer.Add(rightPanel);
@@ -179,7 +196,7 @@ namespace UniBlocks
             controlsPanel.Add(new Label($"{keyConfig.keyBindings.restart} : Restart"));
             rightPanel.Add(controlsPanel);
 
-            // ゲームオーバ�E表示
+            // ゲームオーバ�E表示
             gameOverLabel = new Label("GAME OVER\nPress R to Restart");
             gameOverLabel.AddToClassList("game-over-label");
             gameOverLabel.style.display = DisplayStyle.None;
@@ -196,7 +213,7 @@ namespace UniBlocks
             RefreshScore();
             RefreshNextAndHold();
 
-            // IMGUIコンチE��にフォーカスを設宁E
+            // IMGUIコンチE��にフォーカスを設宁E
             imguiContainer.Focus();
         }
 
@@ -285,7 +302,7 @@ namespace UniBlocks
         {
             if (cells == null || game == null) return;
 
-            // ボ�Eド�E状態を取征E
+            // ボ�Eド�E状態を取征E
             int[,] grid = game.Board.GetGridCopy();
 
             // ゴーストピースを取征E
@@ -312,7 +329,7 @@ namespace UniBlocks
                 }
             }
 
-            // 現在のピ�Eスを描画用に追加
+            // 現在のピ�Eスを描画用に追加
             if (game.CurrentPiece != null)
             {
                 int[][] shape = game.CurrentPiece.GetShape();
@@ -341,7 +358,7 @@ namespace UniBlocks
                 {
                     VisualElement cell = cells[y, x];
                     
-                    // 既存�Eクラスをクリア
+                    // 既存�Eクラスをクリア
                     cell.ClearClassList();
                     cell.AddToClassList("board-cell");
 
@@ -479,7 +496,7 @@ namespace UniBlocks
 
         private void OnFocus()
         {
-            // ウィンドウがフォーカスを得たらIMGUIコンチE��にフォーカス
+            // ウィンドウがフォーカスを得たらIMGUIコンチE��にフォーカス
             if (rootVisualElement != null)
             {
                 var imguiContainer = rootVisualElement.Q<IMGUIContainer>();
@@ -489,7 +506,7 @@ namespace UniBlocks
                 }
             }
             
-            // フォーカス喪失で一時停止してぁE��場合�E再開
+            // フォーカス喪失で一時停止してぁE��場合�E再開
             if (wasPausedByFocusLoss && game != null && !game.IsGameOver)
             {
                 game.IsPaused = false;
@@ -518,7 +535,7 @@ namespace UniBlocks
         /// <summary>
         /// ハイスコア表示を更新
         /// </summary>
-        private void UpdateHighScoreDisplay()
+        public void UpdateHighScoreDisplay()
         {
             if (highScoreValueLabel == null) return;
             

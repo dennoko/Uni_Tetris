@@ -92,11 +92,15 @@ F5 / F5_Mirror はバランス調整のため削除済みです。
 
 ## ハイスコア
 
-スコアはゲームオーバー時に `EditorPrefs`（キー: `UniBlocks_HighScore`）へ保存されます。削除したい場合は以下を実行:
+スコアはゲームオーバー時に `EditorPrefs`（キー: `UniBlocks_HighScore`）へ保存されます。
 
-```csharp
-UnityEditor.EditorPrefs.DeleteKey("UniBlocks_HighScore");
-```
+### リセット方法
+1. Unity メニューで `Window > Uni Blocks > Reset High Score` を選択し、確認ダイアログで「削除」を押す。
+2. もしくはスクリプトから:
+  ```csharp
+  UnityEditor.EditorPrefs.DeleteKey("UniBlocks_HighScore");
+  ```
+3. ウィンドウを開いている場合は表示が自動で更新されます。
 
 ## ファイル構成
 
