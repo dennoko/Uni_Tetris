@@ -59,7 +59,9 @@ namespace UniBlocks
         private UniBlocksPiece CreateRandomPiece()
         {
             UniBlocksPiece.PieceType type = (UniBlocksPiece.PieceType)random.Next(1, 12); // 1-11の11種類
-            return new UniBlocksPiece(type);
+            UniBlocksPiece piece = new UniBlocksPiece(type);
+            AlignPieceToTop(piece);
+            return piece;
         }
 
         /// <summary>
@@ -68,6 +70,7 @@ namespace UniBlocks
         private void SpawnNewPiece()
         {
             CurrentPiece = NextPiece;
+            AlignPieceToTop(CurrentPiece);
             NextPiece = CreateRandomPiece();
             canHold = true;
 
@@ -230,12 +233,15 @@ namespace UniBlocks
             if (HoldPiece == null)
             {
                 HoldPiece = new UniBlocksPiece(CurrentPiece.Type);
+                AlignPieceToTop(HoldPiece);
                 SpawnNewPiece();
             }
             else
             {
                 UniBlocksPiece temp = new UniBlocksPiece(CurrentPiece.Type);
+                AlignPieceToTop(temp);
                 CurrentPiece = new UniBlocksPiece(HoldPiece.Type);
+                AlignPieceToTop(CurrentPiece);
                 HoldPiece = temp;
 
                 if (Board.CheckCollision(CurrentPiece))
@@ -305,6 +311,15 @@ namespace UniBlocks
             double baseSpeed = 1000;
             double speedReduction = Score / 100.0; // 100点ごとに10ms速くなめE
             return Math.Max(100, baseSpeed - speedReduction);
+        }
+
+        /// <summary>
+        /// ブロックの下端が盤面最上段に揃うよう初期Y座標を調整
+        /// </summary>
+        private void AlignPieceToTop(UniBlocksPiece piece)
+        {
+            if (piece == null) return;
+            piece.Y = -piece.GetBottomOccupiedRow();
         }
     }
 }

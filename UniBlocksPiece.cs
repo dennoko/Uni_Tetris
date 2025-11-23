@@ -176,6 +176,27 @@ namespace UniBlocks
         }
 
         /// <summary>
+        /// 現在の回転状態における最下行のインデックスを取得
+        /// </summary>
+        public int GetBottomOccupiedRow()
+        {
+            int[][] shape = GetShape();
+            for (int y = shape.Length - 1; y >= 0; y--)
+            {
+                for (int x = 0; x < shape[y].Length; x++)
+                {
+                    if (shape[y][x] != 0)
+                    {
+                        return y;
+                    }
+                }
+            }
+
+            // 万一全て空でも0を返す
+            return 0;
+        }
+
+        /// <summary>
         /// ランダムなピ�Eスを生成E
         /// </summary>
         public static UniBlocksPiece CreateRandom()
