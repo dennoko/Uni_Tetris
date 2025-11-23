@@ -57,7 +57,7 @@ namespace UniBlocks
         /// </summary>
         private TetrisPiece CreateRandomPiece()
         {
-            TetrisPiece.PieceType type = (TetrisPiece.PieceType)random.Next(1, 13);
+            TetrisPiece.PieceType type = (TetrisPiece.PieceType)random.Next(1, 11); // 1-10の10種類
             return new TetrisPiece(type);
         }
 
@@ -144,20 +144,59 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 回転
+        /// 回転（壁蹴り対応）
         /// </summary>
         public bool Rotate()
         {
             if (IsGameOver || IsPaused) return false;
 
+            int originalX = CurrentPiece.X;
             CurrentPiece.Rotate();
-            if (Board.CheckCollision(CurrentPiece))
+            
+            // 通常の回転が可能ならそのまま実行
+            if (!Board.CheckCollision(CurrentPiece))
             {
-                CurrentPiece.RotateBack();
-                return false;
+                OnBoardChanged?.Invoke();
+                return true;
             }
-            OnBoardChanged?.Invoke();
-            return true;
+            
+            // 壁蹴り: 左右に1マスずらして回転を試みる
+            // 右にずらして試行
+            CurrentPiece.X = originalX + 1;
+            if (!Board.CheckCollision(CurrentPiece))
+            {
+                OnBoardChanged?.Invoke();
+                return true;
+            }
+            
+            // 左にずらして試行
+            CurrentPiece.X = originalX - 1;
+            if (!Board.CheckCollision(CurrentPiece))
+            {
+                OnBoardChanged?.Invoke();
+                return true;
+            }
+            
+            // さらに右に2マスずらして試行（I5の横回転用）
+            CurrentPiece.X = originalX + 2;
+            if (!Board.CheckCollision(CurrentPiece))
+            {
+                OnBoardChanged?.Invoke();
+                return true;
+            }
+            
+            // さらに左に2マスずらして試行（I5の横回転用）
+            CurrentPiece.X = originalX - 2;
+            if (!Board.CheckCollision(CurrentPiece))
+            {
+                OnBoardChanged?.Invoke();
+                return true;
+            }
+            
+            // すべて失敗した場合は回転をキャンセル
+            CurrentPiece.X = originalX;
+            CurrentPiece.RotateBack();
+            return false;
         }
 
         /// <summary>

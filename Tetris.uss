@@ -52,76 +52,64 @@
 }
 
 /* ピースタイプ別の色 */
-/* F piece - マゼンタ */
+/* L3 - ライム（3マスL字） */
 .cell-type-1 {
-    background-color: rgb(255, 0, 255);
-    border-color: rgb(200, 0, 200);
+    background-color: rgb(180, 255, 100);
+    border-color: rgb(140, 200, 80);
 }
 
-/* I piece - シアン */
+/* P5 - オレンジ（4マスP字） */
 .cell-type-2 {
+    background-color: rgb(255, 160, 0);
+    border-color: rgb(200, 120, 0);
+}
+
+/* P5_Mirror - コーラル（4マスP字鏡像） */
+.cell-type-3 {
+    background-color: rgb(255, 127, 80);
+    border-color: rgb(200, 100, 60);
+}
+
+/* I5 - シアン（5マス直線） */
+.cell-type-4 {
     background-color: rgb(0, 240, 240);
     border-color: rgb(0, 200, 200);
 }
 
-/* L piece - オレンジ */
-.cell-type-3 {
-    background-color: rgb(240, 160, 0);
-    border-color: rgb(200, 120, 0);
-}
-
-/* N piece - ライム */
-.cell-type-4 {
-    background-color: rgb(160, 255, 0);
-    border-color: rgb(120, 200, 0);
-}
-
-/* P piece - ピンク */
+/* T5 - 紫（5マスT字） */
 .cell-type-5 {
-    background-color: rgb(255, 160, 200);
-    border-color: rgb(200, 120, 160);
-}
-
-/* T piece - 紫 */
-.cell-type-6 {
     background-color: rgb(160, 0, 240);
     border-color: rgb(120, 0, 200);
 }
 
-/* U piece - 黄色 */
-.cell-type-7 {
+/* U5 - 黄色（5マスU字） */
+.cell-type-6 {
     background-color: rgb(240, 240, 0);
     border-color: rgb(200, 200, 0);
 }
 
-/* V piece - 青緑 */
-.cell-type-8 {
-    background-color: rgb(0, 200, 200);
-    border-color: rgb(0, 160, 160);
+/* F5 - マゼンタ（5マスF字） */
+.cell-type-7 {
+    background-color: rgb(255, 0, 255);
+    border-color: rgb(200, 0, 200);
 }
 
-/* W piece - スカイブルー */
+/* F5_Mirror - ピンク（5マスF字鏡像） */
+.cell-type-8 {
+    background-color: rgb(255, 160, 200);
+    border-color: rgb(200, 120, 160);
+}
+
+/* W5 - スカイブルー（5マスW字） */
 .cell-type-9 {
     background-color: rgb(100, 200, 255);
     border-color: rgb(60, 160, 200);
 }
 
-/* X piece - 赤 */
+/* X5 - 赤（5マス十字） */
 .cell-type-10 {
-    background-color: rgb(240, 0, 0);
-    border-color: rgb(200, 0, 0);
-}
-
-/* Y piece - 緑 */
-.cell-type-11 {
-    background-color: rgb(0, 240, 0);
-    border-color: rgb(0, 200, 0);
-}
-
-/* Z piece - 青 */
-.cell-type-12 {
-    background-color: rgb(0, 0, 240);
-    border-color: rgb(0, 0, 200);
+    background-color: rgb(240, 80, 80);
+    border-color: rgb(200, 40, 40);
 }
 
 /* 右側パネル */
