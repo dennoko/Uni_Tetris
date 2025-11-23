@@ -1,6 +1,6 @@
 using System;
 
-namespace UniTetris
+namespace UniBlocks
 {
     /// <summary>
     /// テトリスゲームのメインロジック
@@ -57,7 +57,7 @@ namespace UniTetris
         /// </summary>
         private TetrisPiece CreateRandomPiece()
         {
-            TetrisPiece.PieceType type = (TetrisPiece.PieceType)random.Next(1, 8);
+            TetrisPiece.PieceType type = (TetrisPiece.PieceType)random.Next(1, 13);
             return new TetrisPiece(type);
         }
 

@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
 
-namespace UniTetris
+namespace UniBlocks
 {
     /// <summary>
     /// テトリスエディタウィンドウ
@@ -23,17 +23,17 @@ namespace UniTetris
         private VisualElement[,] cells;
         
         private double lastUpdateTime;
-        private const string HighScoreKey = "UniTetris_HighScore";
+        private const string HighScoreKey = "UniBlocks_HighScore";
         private KeyBindingConfig keyConfig;
         private Label highScoreValueLabel;
         private bool wasPausedByFocusLoss = false;
 
-        [MenuItem("Window/Uni Tetris")]
+        [MenuItem("Window/Uni Blocks")]
         public static void ShowWindow()
         {
             TetrisWindow window = GetWindow<TetrisWindow>();
-            window.titleContent = new GUIContent("Uni Tetris");
-            window.minSize = new Vector2(400, 600);
+            window.titleContent = new GUIContent("Uni Blocks");
+            window.minSize = new Vector2(450, 700);
         }
 
         private void OnEnable()

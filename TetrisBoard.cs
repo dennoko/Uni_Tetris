@@ -1,14 +1,14 @@
 using System;
 
-namespace UniTetris
+namespace UniBlocks
 {
     /// <summary>
-    /// テトリスの盤面を管理するクラス
+    /// ゲームの盤面を管理するクラス
     /// </summary>
     public class TetrisBoard
     {
-        public const int Width = 10;
-        public const int Height = 20;
+        public const int Width = 12;
+        public const int Height = 25;
 
         private int[,] grid;
 

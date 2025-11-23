@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 
-namespace UniTetris
+namespace UniBlocks
 {
     /// <summary>
     /// キーバインド設定を管理するクラス
@@ -73,17 +73,17 @@ namespace UniTetris
                     string json = File.ReadAllText(configPath);
                     KeyBindingConfig config = JsonUtility.FromJson<KeyBindingConfig>(json);
                     config.BuildKeyCodeCache();
-                    Debug.Log("[Uni Tetris] キーバインド設定を読み込みました: " + configPath);
+                    Debug.Log("[Uni Blocks] キーバインド設定を読み込みました: " + configPath);
                     return config;
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("[Uni Tetris] config.jsonの読み込みに失敗しました: " + e.Message);
+                    Debug.LogError("[Uni Blocks] config.jsonの読み込みに失敗しました: " + e.Message);
                 }
             }
             else
             {
-                Debug.LogWarning("[Uni Tetris] config.jsonが見つかりません。デフォルト設定を使用します。");
+                Debug.LogWarning("[Uni Blocks] config.jsonが見つかりません。デフォルト設定を使用します。");
             }
 
             // デフォルト設定を返す
@@ -120,7 +120,7 @@ namespace UniTetris
             }
             catch
             {
-                Debug.LogError($"[Uni Tetris] 無効なキー名: {keyString}");
+                Debug.LogError($"[Uni Blocks] 無効なキー名: {keyString}");
                 return KeyCode.None;
             }
         }

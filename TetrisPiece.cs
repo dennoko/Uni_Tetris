@@ -1,21 +1,26 @@
 using System;
 
-namespace UniTetris
+namespace UniBlocks
 {
     /// <summary>
-    /// テトリスのミノ（ピース）を表すクラス
+    /// ゲームピース（ペントミノ）を表すクラス
     /// </summary>
     public class TetrisPiece
     {
         public enum PieceType
         {
-            I = 1,
-            O = 2,
-            T = 3,
-            S = 4,
-            Z = 5,
-            J = 6,
-            L = 7
+            F = 1,
+            I = 2,
+            L = 3,
+            N = 4,
+            P = 5,
+            T = 6,
+            U = 7,
+            V = 8,
+            W = 9,
+            X = 10,
+            Y = 11,
+            Z = 12
         }
 
         public PieceType Type { get; private set; }
@@ -23,68 +28,109 @@ namespace UniTetris
         public int Y { get; set; }
         public int Rotation { get; private set; }
 
-        // ミノの形状定義 [type][rotation][y][x]
+        // ペントミノの形状定義 [type][rotation][y][x]
+        // 5マスで構成される12種類のペントミノ
         private static readonly int[][][][] Shapes = new int[][][][]
         {
-            // I piece
+            // F piece
             new int[][][]
             {
-                new int[][] { new int[] {0,0,0,0}, new int[] {1,1,1,1}, new int[] {0,0,0,0}, new int[] {0,0,0,0} },
-                new int[][] { new int[] {0,0,1,0}, new int[] {0,0,1,0}, new int[] {0,0,1,0}, new int[] {0,0,1,0} },
-                new int[][] { new int[] {0,0,0,0}, new int[] {0,0,0,0}, new int[] {1,1,1,1}, new int[] {0,0,0,0} },
-                new int[][] { new int[] {0,1,0,0}, new int[] {0,1,0,0}, new int[] {0,1,0,0}, new int[] {0,1,0,0} }
+                new int[][] { new int[] {0,1,1}, new int[] {1,1,0}, new int[] {0,1,0} },
+                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,0,1} },
+                new int[][] { new int[] {0,1,0}, new int[] {0,1,1}, new int[] {1,1,0} },
+                new int[][] { new int[] {1,0,0}, new int[] {1,1,1}, new int[] {0,1,0} }
             },
-            // O piece
+            // I piece (5マス縦長)
             new int[][][]
             {
-                new int[][] { new int[] {0,1,1,0}, new int[] {0,1,1,0}, new int[] {0,0,0,0} },
-                new int[][] { new int[] {0,1,1,0}, new int[] {0,1,1,0}, new int[] {0,0,0,0} },
-                new int[][] { new int[] {0,1,1,0}, new int[] {0,1,1,0}, new int[] {0,0,0,0} },
-                new int[][] { new int[] {0,1,1,0}, new int[] {0,1,1,0}, new int[] {0,0,0,0} }
-            },
-            // T piece
-            new int[][][]
-            {
-                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,0,0} },
-                new int[][] { new int[] {0,1,0}, new int[] {0,1,1}, new int[] {0,1,0} },
-                new int[][] { new int[] {0,0,0}, new int[] {1,1,1}, new int[] {0,1,0} },
-                new int[][] { new int[] {0,1,0}, new int[] {1,1,0}, new int[] {0,1,0} }
-            },
-            // S piece
-            new int[][][]
-            {
-                new int[][] { new int[] {0,1,1}, new int[] {1,1,0}, new int[] {0,0,0} },
-                new int[][] { new int[] {0,1,0}, new int[] {0,1,1}, new int[] {0,0,1} },
-                new int[][] { new int[] {0,0,0}, new int[] {0,1,1}, new int[] {1,1,0} },
-                new int[][] { new int[] {1,0,0}, new int[] {1,1,0}, new int[] {0,1,0} }
-            },
-            // Z piece
-            new int[][][]
-            {
-                new int[][] { new int[] {1,1,0}, new int[] {0,1,1}, new int[] {0,0,0} },
-                new int[][] { new int[] {0,0,1}, new int[] {0,1,1}, new int[] {0,1,0} },
-                new int[][] { new int[] {0,0,0}, new int[] {1,1,0}, new int[] {0,1,1} },
-                new int[][] { new int[] {0,1,0}, new int[] {1,1,0}, new int[] {1,0,0} }
-            },
-            // J piece
-            new int[][][]
-            {
-                new int[][] { new int[] {1,0,0}, new int[] {1,1,1}, new int[] {0,0,0} },
-                new int[][] { new int[] {0,1,1}, new int[] {0,1,0}, new int[] {0,1,0} },
-                new int[][] { new int[] {0,0,0}, new int[] {1,1,1}, new int[] {0,0,1} },
-                new int[][] { new int[] {0,1,0}, new int[] {0,1,0}, new int[] {1,1,0} }
+                new int[][] { new int[] {1}, new int[] {1}, new int[] {1}, new int[] {1}, new int[] {1} },
+                new int[][] { new int[] {1,1,1,1,1} },
+                new int[][] { new int[] {1}, new int[] {1}, new int[] {1}, new int[] {1}, new int[] {1} },
+                new int[][] { new int[] {1,1,1,1,1} }
             },
             // L piece
             new int[][][]
             {
-                new int[][] { new int[] {0,0,1}, new int[] {1,1,1}, new int[] {0,0,0} },
-                new int[][] { new int[] {0,1,0}, new int[] {0,1,0}, new int[] {0,1,1} },
-                new int[][] { new int[] {0,0,0}, new int[] {1,1,1}, new int[] {1,0,0} },
-                new int[][] { new int[] {1,1,0}, new int[] {0,1,0}, new int[] {0,1,0} }
+                new int[][] { new int[] {1,0}, new int[] {1,0}, new int[] {1,0}, new int[] {1,1} },
+                new int[][] { new int[] {1,1,1,1}, new int[] {1,0,0,0} },
+                new int[][] { new int[] {1,1}, new int[] {0,1}, new int[] {0,1}, new int[] {0,1} },
+                new int[][] { new int[] {0,0,0,1}, new int[] {1,1,1,1} }
+            },
+            // N piece
+            new int[][][]
+            {
+                new int[][] { new int[] {0,1}, new int[] {1,1}, new int[] {1,0}, new int[] {1,0} },
+                new int[][] { new int[] {1,1,0}, new int[] {0,1,1,1} },
+                new int[][] { new int[] {0,1}, new int[] {0,1}, new int[] {1,1}, new int[] {1,0} },
+                new int[][] { new int[] {1,1,1,0}, new int[] {0,0,1,1} }
+            },
+            // P piece
+            new int[][][]
+            {
+                new int[][] { new int[] {1,1}, new int[] {1,1}, new int[] {1,0} },
+                new int[][] { new int[] {1,1,1}, new int[] {0,1,1} },
+                new int[][] { new int[] {0,1}, new int[] {1,1}, new int[] {1,1} },
+                new int[][] { new int[] {1,1,0}, new int[] {1,1,1} }
+            },
+            // T piece
+            new int[][][]
+            {
+                new int[][] { new int[] {1,1,1}, new int[] {0,1,0}, new int[] {0,1,0} },
+                new int[][] { new int[] {0,0,1}, new int[] {1,1,1}, new int[] {0,0,1} },
+                new int[][] { new int[] {0,1,0}, new int[] {0,1,0}, new int[] {1,1,1} },
+                new int[][] { new int[] {1,0,0}, new int[] {1,1,1}, new int[] {1,0,0} }
+            },
+            // U piece
+            new int[][][]
+            {
+                new int[][] { new int[] {1,0,1}, new int[] {1,1,1} },
+                new int[][] { new int[] {1,1}, new int[] {1,0}, new int[] {1,1} },
+                new int[][] { new int[] {1,1,1}, new int[] {1,0,1} },
+                new int[][] { new int[] {1,1}, new int[] {0,1}, new int[] {1,1} }
+            },
+            // V piece
+            new int[][][]
+            {
+                new int[][] { new int[] {1,0,0}, new int[] {1,0,0}, new int[] {1,1,1} },
+                new int[][] { new int[] {1,1,1}, new int[] {1,0,0}, new int[] {1,0,0} },
+                new int[][] { new int[] {1,1,1}, new int[] {0,0,1}, new int[] {0,0,1} },
+                new int[][] { new int[] {0,0,1}, new int[] {0,0,1}, new int[] {1,1,1} }
+            },
+            // W piece
+            new int[][][]
+            {
+                new int[][] { new int[] {1,0,0}, new int[] {1,1,0}, new int[] {0,1,1} },
+                new int[][] { new int[] {0,1,1}, new int[] {1,1,0}, new int[] {1,0,0} },
+                new int[][] { new int[] {1,1,0}, new int[] {0,1,1}, new int[] {0,0,1} },
+                new int[][] { new int[] {0,0,1}, new int[] {0,1,1}, new int[] {1,1,0} }
+            },
+            // X piece (十字)
+            new int[][][]
+            {
+                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,1,0} },
+                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,1,0} },
+                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,1,0} },
+                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,1,0} }
+            },
+            // Y piece
+            new int[][][]
+            {
+                new int[][] { new int[] {0,1}, new int[] {1,1}, new int[] {0,1}, new int[] {0,1} },
+                new int[][] { new int[] {0,0,1,0}, new int[] {1,1,1,1} },
+                new int[][] { new int[] {1,0}, new int[] {1,0}, new int[] {1,1}, new int[] {1,0} },
+                new int[][] { new int[] {1,1,1,1}, new int[] {0,1,0,0} }
+            },
+            // Z piece
+            new int[][][]
+            {
+                new int[][] { new int[] {1,1,0}, new int[] {0,1,0}, new int[] {0,1,1} },
+                new int[][] { new int[] {0,0,1}, new int[] {1,1,1}, new int[] {1,0,0} },
+                new int[][] { new int[] {1,1,0}, new int[] {0,1,0}, new int[] {0,1,1} },
+                new int[][] { new int[] {0,0,1}, new int[] {1,1,1}, new int[] {1,0,0} }
             }
         };
 
-        public TetrisPiece(PieceType type, int startX = 3, int startY = 0)
+        public TetrisPiece(PieceType type, int startX = 4, int startY = 0)
         {
             Type = type;
             X = startX;
@@ -130,7 +176,7 @@ namespace UniTetris
         public static TetrisPiece CreateRandom()
         {
             Random random = new Random();
-            PieceType type = (PieceType)random.Next(1, 8);
+            PieceType type = (PieceType)random.Next(1, 13);
             return new TetrisPiece(type);
         }
     }
