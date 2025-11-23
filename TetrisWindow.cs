@@ -25,6 +25,8 @@ namespace UniTetris
         private double lastUpdateTime;
         private const string HighScoreKey = "UniTetris_HighScore";
         private KeyBindingConfig keyConfig;
+        private Label highScoreValueLabel;
+        private bool wasPausedByFocusLoss = false;
 
         [MenuItem("Window/Uni Tetris")]
         public static void ShowWindow()
@@ -59,6 +61,8 @@ namespace UniTetris
                 game.OnGameOver -= OnGameOver;
                 game.OnPieceChanged -= RefreshNextAndHold;
             }
+            
+            wasPausedByFocusLoss = false;
         }
 
         private void CreateGUI()
@@ -133,8 +137,8 @@ namespace UniTetris
 
             // ハイスコア表示
             VisualElement highScorePanel = CreateInfoPanel("HIGH SCORE");
-            Label highScoreLabel = highScorePanel.Q<Label>("value");
-            highScoreLabel.text = EditorPrefs.GetInt(HighScoreKey, 0).ToString();
+            highScoreValueLabel = highScorePanel.Q<Label>("value");
+            UpdateHighScoreDisplay();
             rightPanel.Add(highScorePanel);
 
             // Next表示
@@ -369,6 +373,9 @@ namespace UniTetris
             scoreLabel.text = game.Score.ToString();
             linesLabel.text = game.Lines.ToString();
             levelLabel.text = game.Level.ToString();
+            
+            // ベストスコアをリアルタイム更新
+            UpdateHighScoreDisplay();
         }
 
         private void RefreshNextAndHold()
@@ -427,25 +434,7 @@ namespace UniTetris
             if (game.Score > currentHighScore)
             {
                 EditorPrefs.SetInt(HighScoreKey, game.Score);
-                
-                // ハイスコア表示を更新
-                VisualElement highScorePanel = rootVisualElement.Q<VisualElement>(className: "info-panel");
-                if (highScorePanel != null)
-                {
-                    foreach (var panel in rootVisualElement.Query<VisualElement>(className: "info-panel").ToList())
-                    {
-                        Label titleLabel = panel.Q<Label>(className: "panel-title");
-                        if (titleLabel != null && titleLabel.text == "HIGH SCORE")
-                        {
-                            Label valueLabel = panel.Q<Label>("value");
-                            if (valueLabel != null)
-                            {
-                                valueLabel.text = game.Score.ToString();
-                            }
-                            break;
-                        }
-                    }
-                }
+                UpdateHighScoreDisplay();
             }
         }
 
@@ -498,6 +487,52 @@ namespace UniTetris
                 {
                     imguiContainer.Focus();
                 }
+            }
+            
+            // フォーカス喪失で一時停止していた場合は再開
+            if (wasPausedByFocusLoss && game != null && !game.IsGameOver)
+            {
+                game.IsPaused = false;
+                if (pauseLabel != null)
+                {
+                    pauseLabel.style.display = DisplayStyle.None;
+                }
+                wasPausedByFocusLoss = false;
+            }
+        }
+        
+        private void OnLostFocus()
+        {
+            // フォーカスを失ったら自動的に一時停止
+            if (game != null && !game.IsGameOver && !game.IsPaused)
+            {
+                game.IsPaused = true;
+                if (pauseLabel != null)
+                {
+                    pauseLabel.style.display = DisplayStyle.Flex;
+                }
+                wasPausedByFocusLoss = true;
+            }
+        }
+        
+        /// <summary>
+        /// ハイスコア表示を更新
+        /// </summary>
+        private void UpdateHighScoreDisplay()
+        {
+            if (highScoreValueLabel == null) return;
+            
+            int bestScore = EditorPrefs.GetInt(HighScoreKey, 0);
+            int currentScore = game != null ? game.Score : 0;
+            
+            // 現在のスコアとベストスコアを表示
+            if (currentScore > bestScore)
+            {
+                highScoreValueLabel.text = $"{currentScore}\n(best: {currentScore})";
+            }
+            else
+            {
+                highScoreValueLabel.text = bestScore > 0 ? $"{currentScore}\n(best: {bestScore})" : "0";
             }
         }
     }

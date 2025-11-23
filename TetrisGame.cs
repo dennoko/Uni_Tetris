@@ -260,8 +260,11 @@ namespace UniTetris
         /// </summary>
         public double GetDropSpeed()
         {
-            // レベルに応じて速度を上げる（レベル1: 1000ms, レベル10: 100ms）
-            return Math.Max(100, 1000 - (Level - 1) * 100);
+            // スコアに応じて速度を上げる
+            // 0点: 1000ms, 1000点: 500ms, 5000点: 200ms, 10000点以上: 100ms
+            double baseSpeed = 1000;
+            double speedReduction = Score / 100.0; // 100点ごとに10ms速くなる
+            return Math.Max(100, baseSpeed - speedReduction);
         }
     }
 }
