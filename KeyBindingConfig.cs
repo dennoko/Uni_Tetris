@@ -7,7 +7,7 @@ using UnityEditor;
 namespace UniBlocks
 {
     /// <summary>
-    /// キーバインド設定を管理するクラス
+    /// キーバインド設定を管琁E��るクラス
     /// </summary>
     [Serializable]
     public class KeyBindingConfig
@@ -45,7 +45,7 @@ namespace UniBlocks
         private Dictionary<string, KeyCode> keyCodeCache;
 
         /// <summary>
-        /// 設定のシングルトンインスタンスを取得
+        /// 設定�Eシングルトンインスタンスを取征E
         /// </summary>
         public static KeyBindingConfig Instance
         {
@@ -64,7 +64,7 @@ namespace UniBlocks
         /// </summary>
         private static KeyBindingConfig LoadConfig()
         {
-            string configPath = "Assets/Editor/Uni_Tetris/config.json";
+            string configPath = "Assets/Editor/Uni_Blocks/config.json";
             
             if (File.Exists(configPath))
             {
@@ -86,14 +86,14 @@ namespace UniBlocks
                 Debug.LogWarning("[Uni Blocks] config.jsonが見つかりません。デフォルト設定を使用します。");
             }
 
-            // デフォルト設定を返す
+            // チE��ォルト設定を返す
             KeyBindingConfig defaultConfig = new KeyBindingConfig();
             defaultConfig.BuildKeyCodeCache();
             return defaultConfig;
         }
 
         /// <summary>
-        /// 文字列からKeyCodeへの変換キャッシュを構築
+        /// 斁E���EからKeyCodeへの変換キャチE��ュを構篁E
         /// </summary>
         private void BuildKeyCodeCache()
         {
@@ -110,7 +110,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 文字列をKeyCodeに変換
+        /// 斁E���EをKeyCodeに変換
         /// </summary>
         private KeyCode ParseKeyCode(string keyString)
         {
@@ -120,13 +120,13 @@ namespace UniBlocks
             }
             catch
             {
-                Debug.LogError($"[Uni Blocks] 無効なキー名: {keyString}");
+                Debug.LogError($"[Uni Blocks] 無効なキー吁E {keyString}");
                 return KeyCode.None;
             }
         }
 
         /// <summary>
-        /// 指定したアクションのKeyCodeを取得
+        /// 持E��したアクションのKeyCodeを取征E
         /// </summary>
         public KeyCode GetKeyCode(string action)
         {
@@ -138,7 +138,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// キーバインドの説明を取得
+        /// キーバインド�E説明を取征E
         /// </summary>
         public string GetDescription(string action)
         {

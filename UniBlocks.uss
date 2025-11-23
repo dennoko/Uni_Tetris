@@ -1,6 +1,6 @@
-/* Tetris UI Toolkit Stylesheet */
+/* UniBlocks UI Toolkit Stylesheet */
 
-/* メインコンテナ */
+/* メインコンチE�� */
 .main-container {
     flex-direction: row;
     flex-grow: 1;
@@ -8,14 +8,14 @@
     padding: 20px;
 }
 
-/* 左側パネル（ボード） */
+/* 左側パネル�E��Eード！E*/
 .left-panel {
     flex-shrink: 0;
     margin-right: 20px;
     justify-content: center;
 }
 
-/* ボードコンテナ */
+/* ボ�EドコンチE�� */
 .board-container {
     background-color: rgb(20, 20, 20);
     border-width: 3px;
@@ -23,13 +23,13 @@
     padding: 2px;
 }
 
-/* ボードの行 */
+/* ボ�Eド�E衁E*/
 .board-row {
     flex-direction: row;
     flex-shrink: 0;
 }
 
-/* ボードのセル */
+/* ボ�Eド�Eセル */
 .board-cell {
     width: 20px;
     height: 20px;
@@ -51,63 +51,71 @@
     opacity: 0.3;
 }
 
-/* ピースタイプ別の色 */
-/* L3 - ライム（3マスL字） */
+/* ピ�Eスタイプ別の色 */
+/* L3 - ライム�E�EマスL字！E*/
 .cell-type-1 {
     background-color: rgb(180, 255, 100);
     border-color: rgb(140, 200, 80);
 }
 
-/* P5 - オレンジ（4マスP字） */
+/* P5 - オレンジ�E�EマスP字！E*/
 .cell-type-2 {
     background-color: rgb(255, 160, 0);
     border-color: rgb(200, 120, 0);
 }
 
-/* P5_Mirror - コーラル（4マスP字鏡像） */
+/* P5_Mirror - コーラル�E�EマスP字鏡像！E*/
 .cell-type-3 {
     background-color: rgb(255, 127, 80);
     border-color: rgb(200, 100, 60);
 }
 
-/* I5 - シアン（5マス直線） */
+/* J4 - �_�[�N�u���[�i4�}�XJ���j*/
 .cell-type-4 {
+    background-color: rgb(0, 100, 200);
+    border-color: rgb(0, 70, 150);
+}
+
+/* L4 - �S�[���h�i4�}�XL���j*/
+.cell-type-5 {
+    background-color: rgb(255, 200, 0);
+    border-color: rgb(200, 150, 0);
+}
+
+/* T4 - �p�[�v���i4�}�XT���j*/
+.cell-type-6 {
+    background-color: rgb(128, 0, 128);
+    border-color: rgb(100, 0, 100);
+}
+
+/* I5 - �V�A���i5�}�X�����j*/
+.cell-type-7 {
     background-color: rgb(0, 240, 240);
     border-color: rgb(0, 200, 200);
 }
 
-/* T5 - 紫（5マスT字） */
-.cell-type-5 {
+/* T5 - ���i5�}�XT���j*/
+.cell-type-8 {
     background-color: rgb(160, 0, 240);
     border-color: rgb(120, 0, 200);
 }
 
-/* U5 - 黄色（5マスU字） */
-.cell-type-6 {
+/* U5 - ���F�i5�}�XU���j*/
+.cell-type-9 {
     background-color: rgb(240, 240, 0);
     border-color: rgb(200, 200, 0);
 }
 
-/* F5 - マゼンタ（5マスF字） */
-.cell-type-7 {
-    background-color: rgb(255, 0, 255);
-    border-color: rgb(200, 0, 200);
-}
 
-/* F5_Mirror - ピンク（5マスF字鏡像） */
-.cell-type-8 {
-    background-color: rgb(255, 160, 200);
-    border-color: rgb(200, 120, 160);
-}
 
-/* W5 - スカイブルー（5マスW字） */
-.cell-type-9 {
+/* W5 - �X�J�C�u���[�i5�}�XW���j*/
+.cell-type-10 {
     background-color: rgb(100, 200, 255);
     border-color: rgb(60, 160, 200);
 }
 
-/* X5 - 赤（5マス十字） */
-.cell-type-10 {
+/* X5 - �ԁi5�}�X�\���j*/
+.cell-type-11 {
     background-color: rgb(240, 80, 80);
     border-color: rgb(200, 40, 40);
 }
@@ -119,7 +127,7 @@
     min-width: 180px;
 }
 
-/* 情報パネル */
+/* 惁E��パネル */
 .info-panel {
     background-color: rgb(40, 40, 40);
     border-width: 2px;
@@ -145,7 +153,7 @@
     -unity-text-align: middle-center;
 }
 
-/* ピースパネル */
+/* ピ�Eスパネル */
 .piece-panel {
     background-color: rgb(40, 40, 40);
     border-width: 2px;
@@ -155,7 +163,7 @@
     margin-bottom: 10px;
 }
 
-/* ピースコンテナ */
+/* ピ�EスコンチE�� */
 .piece-container {
     min-height: 80px;
     justify-content: center;
@@ -163,13 +171,13 @@
     margin-top: 5px;
 }
 
-/* ピースの行 */
+/* ピ�Eスの衁E*/
 .piece-row {
     flex-direction: row;
     flex-shrink: 0;
 }
 
-/* ピースのセル */
+/* ピ�Eスのセル */
 .piece-cell {
     width: 14px;
     height: 14px;
@@ -194,7 +202,7 @@
     margin-bottom: 3px;
 }
 
-/* ゲームオーバーラベル */
+/* ゲームオーバ�Eラベル */
 .game-over-label {
     position: absolute;
     left: 0;

@@ -3,14 +3,14 @@ using System;
 namespace UniBlocks
 {
     /// <summary>
-    /// テトリスゲームのメインロジック
+    /// UniBlocksゲームのメインロジチE��
     /// </summary>
-    public class TetrisGame
+    public class UniBlocksGame
     {
-        public TetrisBoard Board { get; private set; }
-        public TetrisPiece CurrentPiece { get; private set; }
-        public TetrisPiece NextPiece { get; private set; }
-        public TetrisPiece HoldPiece { get; private set; }
+        public UniBlocksBoard Board { get; private set; }
+        public UniBlocksPiece CurrentPiece { get; private set; }
+        public UniBlocksPiece NextPiece { get; private set; }
+        public UniBlocksPiece HoldPiece { get; private set; }
         
         public int Score { get; private set; }
         public int Lines { get; private set; }
@@ -21,21 +21,22 @@ namespace UniBlocks
         private bool canHold = true;
         private Random random;
 
-        // イベント
+        // イベンチE
         public event Action OnBoardChanged;
         public event Action OnScoreChanged;
         public event Action OnGameOver;
         public event Action OnPieceChanged;
 
-        public TetrisGame()
+        public UniBlocksGame()
         {
-            Board = new TetrisBoard();
-            random = new Random();
+            Board = new UniBlocksBoard();
+            // より良いランダム性を確保するため、Guidを使用してシードを生成
+            random = new Random(Guid.NewGuid().GetHashCode());
             Initialize();
         }
 
         /// <summary>
-        /// ゲームの初期化
+        /// ゲームの初期匁E
         /// </summary>
         public void Initialize()
         {
@@ -55,14 +56,14 @@ namespace UniBlocks
         /// <summary>
         /// ランダムなピースを生成
         /// </summary>
-        private TetrisPiece CreateRandomPiece()
+        private UniBlocksPiece CreateRandomPiece()
         {
-            TetrisPiece.PieceType type = (TetrisPiece.PieceType)random.Next(1, 11); // 1-10の10種類
-            return new TetrisPiece(type);
+            UniBlocksPiece.PieceType type = (UniBlocksPiece.PieceType)random.Next(1, 12); // 1-11の11種類
+            return new UniBlocksPiece(type);
         }
 
         /// <summary>
-        /// 新しいピースを出現させる
+        /// 新しいピ�Eスを�E現させめE
         /// </summary>
         private void SpawnNewPiece()
         {
@@ -80,7 +81,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 1フレーム分の更新（自然落下）
+        /// 1フレーム刁E�E更新�E��E然落下！E
         /// </summary>
         public void Step()
         {
@@ -93,7 +94,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 左に移動
+        /// 左に移勁E
         /// </summary>
         public bool MoveLeft()
         {
@@ -110,7 +111,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 右に移動
+        /// 右に移勁E
         /// </summary>
         public bool MoveRight()
         {
@@ -127,7 +128,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 下に移動
+        /// 下に移勁E
         /// </summary>
         public bool MoveDown()
         {
@@ -144,7 +145,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 回転（壁蹴り対応）
+        /// 回転�E�壁蹴り対応！E
         /// </summary>
         public bool Rotate()
         {
@@ -153,15 +154,15 @@ namespace UniBlocks
             int originalX = CurrentPiece.X;
             CurrentPiece.Rotate();
             
-            // 通常の回転が可能ならそのまま実行
+            // 通常の回転が可能ならそのまま実衁E
             if (!Board.CheckCollision(CurrentPiece))
             {
                 OnBoardChanged?.Invoke();
                 return true;
             }
             
-            // 壁蹴り: 左右に1マスずらして回転を試みる
-            // 右にずらして試行
+            // 壁蹴めE 左右に1マスずらして回転を試みめE
+            // 右にずらして試衁E
             CurrentPiece.X = originalX + 1;
             if (!Board.CheckCollision(CurrentPiece))
             {
@@ -169,7 +170,7 @@ namespace UniBlocks
                 return true;
             }
             
-            // 左にずらして試行
+            // 左にずらして試衁E
             CurrentPiece.X = originalX - 1;
             if (!Board.CheckCollision(CurrentPiece))
             {
@@ -177,7 +178,7 @@ namespace UniBlocks
                 return true;
             }
             
-            // さらに右に2マスずらして試行（I5の横回転用）
+            // さらに右に2マスずらして試行！E5の横回転用�E�E
             CurrentPiece.X = originalX + 2;
             if (!Board.CheckCollision(CurrentPiece))
             {
@@ -185,7 +186,7 @@ namespace UniBlocks
                 return true;
             }
             
-            // さらに左に2マスずらして試行（I5の横回転用）
+            // さらに左に2マスずらして試行！E5の横回転用�E�E
             CurrentPiece.X = originalX - 2;
             if (!Board.CheckCollision(CurrentPiece))
             {
@@ -193,14 +194,14 @@ namespace UniBlocks
                 return true;
             }
             
-            // すべて失敗した場合は回転をキャンセル
+            // すべて失敗した場合�E回転をキャンセル
             CurrentPiece.X = originalX;
             CurrentPiece.RotateBack();
             return false;
         }
 
         /// <summary>
-        /// ハードドロップ
+        /// ハ�EドドロチE�E
         /// </summary>
         public void HardDrop()
         {
@@ -212,7 +213,7 @@ namespace UniBlocks
                 dropDistance++;
             }
             
-            // ハードドロップボーナス
+            // ハ�EドドロチE�Eボ�Eナス
             Score += dropDistance * 2;
             
             LockPiece();
@@ -220,7 +221,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// ホールド機能
+        /// ホ�Eルド機�E
         /// </summary>
         public void Hold()
         {
@@ -228,13 +229,13 @@ namespace UniBlocks
 
             if (HoldPiece == null)
             {
-                HoldPiece = new TetrisPiece(CurrentPiece.Type);
+                HoldPiece = new UniBlocksPiece(CurrentPiece.Type);
                 SpawnNewPiece();
             }
             else
             {
-                TetrisPiece temp = new TetrisPiece(CurrentPiece.Type);
-                CurrentPiece = new TetrisPiece(HoldPiece.Type);
+                UniBlocksPiece temp = new UniBlocksPiece(CurrentPiece.Type);
+                CurrentPiece = new UniBlocksPiece(HoldPiece.Type);
                 HoldPiece = temp;
 
                 if (Board.CheckCollision(CurrentPiece))
@@ -251,7 +252,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// ピースを固定
+        /// ピ�Eスを固宁E
         /// </summary>
         private void LockPiece()
         {
@@ -262,11 +263,11 @@ namespace UniBlocks
             {
                 Lines += linesCleared;
                 
-                // スコア計算（1ライン: 100, 2ライン: 300, 3ライン: 500, 4ライン: 800）
+                // スコア計算！Eライン: 100, 2ライン: 300, 3ライン: 500, 4ライン: 800�E�E
                 int[] lineScores = { 0, 100, 300, 500, 800 };
                 Score += lineScores[Math.Min(linesCleared, 4)] * Level;
                 
-                // レベルアップ（10ライン毎）
+                // レベルアチE�E�E�E0ライン毎！E
                 Level = Lines / 10 + 1;
                 
                 OnScoreChanged?.Invoke();
@@ -277,11 +278,11 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// ゴーストピース（落下予測位置）を取得
+        /// ゴーストピース�E�落下予測位置�E�を取征E
         /// </summary>
-        public TetrisPiece GetGhostPiece()
+        public UniBlocksPiece GetGhostPiece()
         {
-            TetrisPiece ghost = CurrentPiece.Clone();
+            UniBlocksPiece ghost = CurrentPiece.Clone();
             while (true)
             {
                 ghost.Y++;
@@ -295,14 +296,14 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 落下速度を取得（ミリ秒）
+        /// 落下速度を取得（ミリ秒！E
         /// </summary>
         public double GetDropSpeed()
         {
-            // スコアに応じて速度を上げる
-            // 0点: 1000ms, 1000点: 500ms, 5000点: 200ms, 10000点以上: 100ms
+            // スコアに応じて速度を上げめE
+            // 0点: 1000ms, 1000点: 500ms, 5000点: 200ms, 10000点以丁E 100ms
             double baseSpeed = 1000;
-            double speedReduction = Score / 100.0; // 100点ごとに10ms速くなる
+            double speedReduction = Score / 100.0; // 100点ごとに10ms速くなめE
             return Math.Max(100, baseSpeed - speedReduction);
         }
     }

@@ -3,16 +3,16 @@ using System;
 namespace UniBlocks
 {
     /// <summary>
-    /// ゲームの盤面を管理するクラス
+    /// ゲームの盤面を管琁E��るクラス
     /// </summary>
-    public class TetrisBoard
+    public class UniBlocksBoard
     {
         public const int Width = 12;
         public const int Height = 25;
 
         private int[,] grid;
 
-        public TetrisBoard()
+        public UniBlocksBoard()
         {
             grid = new int[Height, Width];
             Clear();
@@ -33,7 +33,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 指定位置のセルの値を取得
+        /// 持E��位置のセルの値を取征E
         /// </summary>
         public int GetCell(int x, int y)
         {
@@ -43,7 +43,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 指定位置のセルの値を設定
+        /// 持E��位置のセルの値を設宁E
         /// </summary>
         public void SetCell(int x, int y, int value)
         {
@@ -54,9 +54,9 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// ピースが配置可能かチェック
+        /// ピ�Eスが�E置可能かチェチE��
         /// </summary>
-        public bool CheckCollision(TetrisPiece piece)
+        public bool CheckCollision(UniBlocksPiece piece)
         {
             int[][] shape = piece.GetShape();
             
@@ -69,15 +69,15 @@ namespace UniBlocks
                         int boardX = piece.X + x;
                         int boardY = piece.Y + y;
 
-                        // 盤面外チェック
+                        // 盤面外チェチE��
                         if (boardX < 0 || boardX >= Width || boardY >= Height)
                             return true;
 
-                        // 下端チェックは特別扱い（Y < 0は許容）
+                        // 下端チェチE��は特別扱ぁE��E < 0は許容�E�E
                         if (boardY < 0)
                             continue;
 
-                        // 既存ブロックとの衝突チェック
+                        // 既存ブロチE��との衝突チェチE��
                         if (grid[boardY, boardX] != 0)
                             return true;
                     }
@@ -87,9 +87,9 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// ピースを盤面に固定
+        /// ピ�Eスを盤面に固宁E
         /// </summary>
-        public void PlacePiece(TetrisPiece piece)
+        public void PlacePiece(UniBlocksPiece piece)
         {
             int[][] shape = piece.GetShape();
             
@@ -112,7 +112,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 完成したラインをクリアして消去したライン数を返す
+        /// 完�Eしたラインをクリアして消去したライン数を返す
         /// </summary>
         public int ClearLines()
         {
@@ -133,7 +133,7 @@ namespace UniBlocks
                 if (lineFull)
                 {
                     linesCleared++;
-                    // ラインを削除して上のラインを下げる
+                    // ラインを削除して上�Eラインを下げめE
                     for (int moveY = y; moveY > 0; moveY--)
                     {
                         for (int x = 0; x < Width; x++)
@@ -146,7 +146,7 @@ namespace UniBlocks
                     {
                         grid[0, x] = 0;
                     }
-                    // 同じ行を再チェック
+                    // 同じ行を再チェチE��
                     y++;
                 }
             }
@@ -155,7 +155,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 盤面のコピーを作成
+        /// 盤面のコピ�Eを作�E
         /// </summary>
         public int[,] GetGridCopy()
         {

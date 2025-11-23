@@ -3,9 +3,9 @@ using System;
 namespace UniBlocks
 {
     /// <summary>
-    /// ゲームピース（3マス + 5マス混合）を表すクラス
+    /// ゲームピ�Eス�E�Eマス + 5マス混合）を表すクラス
     /// </summary>
-    public class TetrisPiece
+    public class UniBlocksPiece
     {
         public enum PieceType
         {
@@ -14,16 +14,17 @@ namespace UniBlocks
             
             // 4マスピース
             P5 = 2,      // 4マスP字
-            P5_Mirror = 3,  // 4マスP字(鏡像)
+            P5_Mirror = 3,  // 4マスP字鏡像
+            J4 = 4,      // 4マスJ字 (1111 / 1000)
+            L4 = 5,      // 4マスL字 (1000 / 1111)
+            T4 = 6,      // 4マスT字
             
             // 5マスピース
-            I5 = 4,      // 5マス直線
-            T5 = 5,      // 5マスT字
-            U5 = 6,      // 5マスU字
-            F5 = 7,      // 5マスF字
-            F5_Mirror = 8,  // 5マスF字(鏡像)
-            W5 = 9,      // 5マスW字
-            X5 = 10      // 5マス十字
+            I5 = 7,      // 5マス直線
+            T5 = 8,      // 5マスT字
+            U5 = 9,      // 5マスU字
+            W5 = 10,     // 5マスW字
+            X5 = 11      // 5マス十字
         }
 
         public PieceType Type { get; private set; }
@@ -31,10 +32,10 @@ namespace UniBlocks
         public int Y { get; set; }
         public int Rotation { get; private set; }
 
-        // ピースの形状定義 [type][rotation][y][x]
+        // ピ�Eスの形状定義 [type][rotation][y][x]
         private static readonly int[][][][] Shapes = new int[][][][]
         {
-            // L3 piece (3マスL字)
+            // L3 piece (3マスL孁E
             new int[][][]
             {
                 new int[][] { new int[] {1,0}, new int[] {1,1} },
@@ -43,22 +44,49 @@ namespace UniBlocks
                 new int[][] { new int[] {0,1}, new int[] {1,1} }
             },
             
-            // P5 piece (4マスP字: 1 1 0 / 1 1 1 / 0 0 0)
+            // P5 piece (4マスP孁E 1 1 0 / 1 1 1 / 0 0 0)
             new int[][][]
             {
                 new int[][] { new int[] {1,1,0}, new int[] {1,1,1} },
                 new int[][] { new int[] {1,1}, new int[] {1,1}, new int[] {1,0} },
                 new int[][] { new int[] {1,1,1}, new int[] {0,1,1} },
-                new int[][] { new int[] {1,0}, new int[] {1,1}, new int[] {1,1} }
+                new int[][] { new int[] {0,1}, new int[] {1,1}, new int[] {1,1} }
             },
             
-            // P5_Mirror piece (4マスP字鏡像: 0 1 1 / 1 1 1 / 0 0 0)
+            // P5_Mirror piece (4マスP字鏡僁E 0 1 1 / 1 1 1 / 0 0 0)
             new int[][][]
             {
                 new int[][] { new int[] {0,1,1}, new int[] {1,1,1} },
                 new int[][] { new int[] {1,0}, new int[] {1,1}, new int[] {1,1} },
                 new int[][] { new int[] {1,1,1}, new int[] {1,1,0} },
                 new int[][] { new int[] {1,1}, new int[] {1,1}, new int[] {0,1} }
+            },
+            
+            // J4 piece (4マスJ字: 1111 / 1000)
+            new int[][][]
+            {
+                new int[][] { new int[] {1,1,1,1}, new int[] {1,0,0,0} },
+                new int[][] { new int[] {1,1}, new int[] {0,1}, new int[] {0,1}, new int[] {0,1} },
+                new int[][] { new int[] {0,0,0,1}, new int[] {1,1,1,1} },
+                new int[][] { new int[] {1,0}, new int[] {1,0}, new int[] {1,0}, new int[] {1,1} }
+            },
+            
+            // L4 piece (4マスL字: 1000 / 1111)
+            new int[][][]
+            {
+                new int[][] { new int[] {1,0,0,0}, new int[] {1,1,1,1} },
+                new int[][] { new int[] {0,1}, new int[] {0,1}, new int[] {0,1}, new int[] {1,1} },
+                new int[][] { new int[] {1,1,1,1}, new int[] {0,0,0,1} },
+                new int[][] { new int[] {1,1}, new int[] {1,0}, new int[] {1,0}, new int[] {1,0} }
+            },
+            
+            // T4 piece (4マスT字)
+            new int[][][]
+            {
+                new int[][] { new int[] {1,1,1}, new int[] {0,1,0} },
+                new int[][] { new int[] {0,1}, new int[] {1,1}, new int[] {0,1} },
+                new int[][] { new int[] {0,1,0}, new int[] {1,1,1} },
+                new int[][] { new int[] {1,0}, new int[] {1,1}, new int[] {1,0} }
             },
             
             // I5 piece (5マス直線)
@@ -70,7 +98,7 @@ namespace UniBlocks
                 new int[][] { new int[] {1,1,1,1,1} }
             },
             
-            // T5 piece (5マスT字)
+            // T5 piece (5マスT孁E
             new int[][][]
             {
                 new int[][] { new int[] {1,1,1}, new int[] {0,1,0}, new int[] {0,1,0} },
@@ -88,24 +116,6 @@ namespace UniBlocks
                 new int[][] { new int[] {1,1}, new int[] {0,1}, new int[] {1,1} }
             },
             
-            // F5 piece (5マスF字)
-            new int[][][]
-            {
-                new int[][] { new int[] {0,1,1}, new int[] {1,1,0}, new int[] {0,1,0} },
-                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,0,1} },
-                new int[][] { new int[] {0,1,0}, new int[] {0,1,1}, new int[] {1,1,0} },
-                new int[][] { new int[] {1,0,0}, new int[] {1,1,1}, new int[] {0,1,0} }
-            },
-            
-            // F5_Mirror piece (5マスF字鏡像)
-            new int[][][]
-            {
-                new int[][] { new int[] {1,1,0}, new int[] {0,1,1}, new int[] {0,1,0} },
-                new int[][] { new int[] {0,0,1}, new int[] {1,1,1}, new int[] {0,1,0} },
-                new int[][] { new int[] {0,1,0}, new int[] {1,1,0}, new int[] {0,1,1} },
-                new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {1,0,0} }
-            },
-            
             // W5 piece (5マスW字)
             new int[][][]
             {
@@ -115,7 +125,7 @@ namespace UniBlocks
                 new int[][] { new int[] {0,0,1}, new int[] {0,1,1}, new int[] {1,1,0} }
             },
             
-            // X5 piece (5マス十字)
+            // X5 piece (5マス十孁E
             new int[][][]
             {
                 new int[][] { new int[] {0,1,0}, new int[] {1,1,1}, new int[] {0,1,0} },
@@ -125,7 +135,7 @@ namespace UniBlocks
             }
         };
 
-        public TetrisPiece(PieceType type, int startX = 4, int startY = 0)
+        public UniBlocksPiece(PieceType type, int startX = 4, int startY = 0)
         {
             Type = type;
             X = startX;
@@ -134,7 +144,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 現在の形状を取得
+        /// 現在の形状を取征E
         /// </summary>
         public int[][] GetShape()
         {
@@ -142,7 +152,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 回転（時計回り）
+        /// 回転�E�時計回り！E
         /// </summary>
         public void Rotate()
         {
@@ -150,7 +160,7 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// 回転を戻す
+        /// 回転を戻ぁE
         /// </summary>
         public void RotateBack()
         {
@@ -158,21 +168,21 @@ namespace UniBlocks
         }
 
         /// <summary>
-        /// ピースのコピーを作成
+        /// ピ�Eスのコピ�Eを作�E
         /// </summary>
-        public TetrisPiece Clone()
+        public UniBlocksPiece Clone()
         {
-            return new TetrisPiece(Type, X, Y) { Rotation = this.Rotation };
+            return new UniBlocksPiece(Type, X, Y) { Rotation = this.Rotation };
         }
 
         /// <summary>
-        /// ランダムなピースを生成
+        /// ランダムなピ�Eスを生成E
         /// </summary>
-        public static TetrisPiece CreateRandom()
+        public static UniBlocksPiece CreateRandom()
         {
-            Random random = new Random();
-            PieceType type = (PieceType)random.Next(1, 11); // 1-10の10種類
-            return new TetrisPiece(type);
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            PieceType type = (PieceType)random.Next(1, 12); // 1-11の11種類
+            return new UniBlocksPiece(type);
         }
     }
 }

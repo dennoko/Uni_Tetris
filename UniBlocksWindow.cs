@@ -7,11 +7,11 @@ using System.Collections.Generic;
 namespace UniBlocks
 {
     /// <summary>
-    /// テトリスエディタウィンドウ
+    /// UniBlocksエチE��タウィンドウ
     /// </summary>
-    public class TetrisWindow : EditorWindow
+    public class UniBlocksWindow : EditorWindow
     {
-        private TetrisGame game;
+        private UniBlocksGame game;
         private VisualElement boardContainer;
         private VisualElement nextPieceContainer;
         private VisualElement holdPieceContainer;
@@ -31,7 +31,7 @@ namespace UniBlocks
         [MenuItem("Window/Uni Blocks")]
         public static void ShowWindow()
         {
-            TetrisWindow window = GetWindow<TetrisWindow>();
+            UniBlocksWindow window = GetWindow<UniBlocksWindow>();
             window.titleContent = new GUIContent("Uni Blocks");
             window.minSize = new Vector2(450, 700);
         }
@@ -40,7 +40,7 @@ namespace UniBlocks
         {
             keyConfig = KeyBindingConfig.Instance;
             
-            game = new TetrisGame();
+            game = new UniBlocksGame();
             game.OnBoardChanged += RefreshBoard;
             game.OnScoreChanged += RefreshScore;
             game.OnGameOver += OnGameOver;
@@ -70,9 +70,9 @@ namespace UniBlocks
             // ルート要素
             VisualElement root = rootVisualElement;
             root.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(
-                "Assets/Editor/Uni_Tetris/Tetris.uss"));
+                "Assets/Editor/Uni_Blocks/UniBlocks.uss"));
 
-            // IMGUIコンテナでキーイベントを処理
+            // IMGUIコンチE��でキーイベントを処琁E
             var imguiContainer = new IMGUIContainer(() =>
             {
                 HandleKeyInput();
@@ -83,12 +83,12 @@ namespace UniBlocks
             imguiContainer.focusable = true;
             root.Add(imguiContainer);
 
-            // メインコンテナ
+            // メインコンチE��
             VisualElement mainContainer = new VisualElement();
             mainContainer.AddToClassList("main-container");
             root.Add(mainContainer);
 
-            // 左側：ゲームボード
+            // 左側�E�ゲームボ�EチE
             VisualElement leftPanel = new VisualElement();
             leftPanel.AddToClassList("left-panel");
             mainContainer.Add(leftPanel);
@@ -97,15 +97,15 @@ namespace UniBlocks
             boardContainer.AddToClassList("board-container");
             leftPanel.Add(boardContainer);
 
-            // ボードのセルを作成
-            cells = new VisualElement[TetrisBoard.Height, TetrisBoard.Width];
-            for (int y = 0; y < TetrisBoard.Height; y++)
+            // ボ�Eド�Eセルを作�E
+            cells = new VisualElement[UniBlocksBoard.Height, UniBlocksBoard.Width];
+            for (int y = 0; y < UniBlocksBoard.Height; y++)
             {
                 VisualElement row = new VisualElement();
                 row.AddToClassList("board-row");
                 boardContainer.Add(row);
 
-                for (int x = 0; x < TetrisBoard.Width; x++)
+                for (int x = 0; x < UniBlocksBoard.Width; x++)
                 {
                     VisualElement cell = new VisualElement();
                     cell.AddToClassList("board-cell");
@@ -115,7 +115,7 @@ namespace UniBlocks
                 }
             }
 
-            // 右側：情報パネル
+            // 右側�E�情報パネル
             VisualElement rightPanel = new VisualElement();
             rightPanel.AddToClassList("right-panel");
             mainContainer.Add(rightPanel);
@@ -163,7 +163,7 @@ namespace UniBlocks
             holdPanel.Add(holdPieceContainer);
             rightPanel.Add(holdPanel);
 
-            // 操作説明
+            // 操作説昁E
             VisualElement controlsPanel = new VisualElement();
             controlsPanel.AddToClassList("controls-panel");
             Label controlsTitle = new Label("CONTROLS");
@@ -179,7 +179,7 @@ namespace UniBlocks
             controlsPanel.Add(new Label($"{keyConfig.keyBindings.restart} : Restart"));
             rightPanel.Add(controlsPanel);
 
-            // ゲームオーバー表示
+            // ゲームオーバ�E表示
             gameOverLabel = new Label("GAME OVER\nPress R to Restart");
             gameOverLabel.AddToClassList("game-over-label");
             gameOverLabel.style.display = DisplayStyle.None;
@@ -196,7 +196,7 @@ namespace UniBlocks
             RefreshScore();
             RefreshNextAndHold();
 
-            // IMGUIコンテナにフォーカスを設定
+            // IMGUIコンチE��にフォーカスを設宁E
             imguiContainer.Focus();
         }
 
@@ -285,12 +285,12 @@ namespace UniBlocks
         {
             if (cells == null || game == null) return;
 
-            // ボードの状態を取得
+            // ボ�Eド�E状態を取征E
             int[,] grid = game.Board.GetGridCopy();
 
-            // ゴーストピースを取得
-            TetrisPiece ghost = game.GetGhostPiece();
-            bool[,] ghostCells = new bool[TetrisBoard.Height, TetrisBoard.Width];
+            // ゴーストピースを取征E
+            UniBlocksPiece ghost = game.GetGhostPiece();
+            bool[,] ghostCells = new bool[UniBlocksBoard.Height, UniBlocksBoard.Width];
             if (ghost != null)
             {
                 int[][] ghostShape = ghost.GetShape();
@@ -302,8 +302,8 @@ namespace UniBlocks
                         {
                             int boardY = ghost.Y + y;
                             int boardX = ghost.X + x;
-                            if (boardY >= 0 && boardY < TetrisBoard.Height && 
-                                boardX >= 0 && boardX < TetrisBoard.Width)
+                            if (boardY >= 0 && boardY < UniBlocksBoard.Height && 
+                                boardX >= 0 && boardX < UniBlocksBoard.Width)
                             {
                                 ghostCells[boardY, boardX] = true;
                             }
@@ -312,7 +312,7 @@ namespace UniBlocks
                 }
             }
 
-            // 現在のピースを描画用に追加
+            // 現在のピ�Eスを描画用に追加
             if (game.CurrentPiece != null)
             {
                 int[][] shape = game.CurrentPiece.GetShape();
@@ -324,8 +324,8 @@ namespace UniBlocks
                         {
                             int boardY = game.CurrentPiece.Y + y;
                             int boardX = game.CurrentPiece.X + x;
-                            if (boardY >= 0 && boardY < TetrisBoard.Height && 
-                                boardX >= 0 && boardX < TetrisBoard.Width)
+                            if (boardY >= 0 && boardY < UniBlocksBoard.Height && 
+                                boardX >= 0 && boardX < UniBlocksBoard.Width)
                             {
                                 grid[boardY, boardX] = (int)game.CurrentPiece.Type;
                             }
@@ -335,13 +335,13 @@ namespace UniBlocks
             }
 
             // セルを更新
-            for (int y = 0; y < TetrisBoard.Height; y++)
+            for (int y = 0; y < UniBlocksBoard.Height; y++)
             {
-                for (int x = 0; x < TetrisBoard.Width; x++)
+                for (int x = 0; x < UniBlocksBoard.Width; x++)
                 {
                     VisualElement cell = cells[y, x];
                     
-                    // 既存のクラスをクリア
+                    // 既存�Eクラスをクリア
                     cell.ClearClassList();
                     cell.AddToClassList("board-cell");
 
@@ -389,7 +389,7 @@ namespace UniBlocks
             DrawPiecePreview(holdPieceContainer, game.HoldPiece);
         }
 
-        private void DrawPiecePreview(VisualElement container, TetrisPiece piece)
+        private void DrawPiecePreview(VisualElement container, UniBlocksPiece piece)
         {
             container.Clear();
 
@@ -469,7 +469,7 @@ namespace UniBlocks
             RefreshScore();
             RefreshNextAndHold();
 
-            // フォーカスを戻す
+            // フォーカスを戻ぁE
             var imguiContainer = rootVisualElement.Q<IMGUIContainer>();
             if (imguiContainer != null)
             {
@@ -479,7 +479,7 @@ namespace UniBlocks
 
         private void OnFocus()
         {
-            // ウィンドウがフォーカスを得たらIMGUIコンテナにフォーカス
+            // ウィンドウがフォーカスを得たらIMGUIコンチE��にフォーカス
             if (rootVisualElement != null)
             {
                 var imguiContainer = rootVisualElement.Q<IMGUIContainer>();
@@ -489,7 +489,7 @@ namespace UniBlocks
                 }
             }
             
-            // フォーカス喪失で一時停止していた場合は再開
+            // フォーカス喪失で一時停止してぁE��場合�E再開
             if (wasPausedByFocusLoss && game != null && !game.IsGameOver)
             {
                 game.IsPaused = false;
